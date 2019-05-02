@@ -1,68 +1,97 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+基于create-react-app的react项目。
 
-In the project directory, you can run:
+> 不弹出CRA的默认配置，而是覆盖原有配置。
 
-### `npm start`
+1、CRA自带模块热更新。
+2、引用antd组件库。
+3、引入mobx、mobx-react模块，且使用装饰器语法。
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+> CRA+antd+mobx基本环境配置
 
-### `npm test`
+## 1、create-react-app
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+> 语法根据CRA版本会有迭代，具体看文档。
+> 使用CRA创建react的web项目。
+> 自带模块热更新。
 
-### `npm run build`
+[GitHub - facebook/create-react-app: Set up a modern web app by running one command.](https://github.com/facebook/create-react-app)
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+``` js
+npx create-react-app my-app
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+cd my-app
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+npm start
+```
 
-### `npm run eject`
+## 2、antd
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+[Ant Design - A UI Design Language](https://ant.design/docs/react/use-with-create-react-app-cn)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+> 在CRA创建的项目中，引入antd组件库。且开启按需加载组件的功能。
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+``` js
+npm install react-app-rewired customize-cra 
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+> 将package.json文件中的脚本配置替换掉：
+``` js
+// package.json
+"scripts": {
+   "start": "react-app-rewired start",
+   "build": "react-app-rewired build",
+   "test": "react-app-rewired test",
+}
+```
 
-## Learn More
+> 在根目录下，新建`config-overrides.js`文件，用于覆盖配置。
+``` js
+// package.json
+module.exports = function override(config, env) {
+  // do stuff with the webpack config...
+  return config;
+};
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+> 覆写配置，按需引入antd组件
+``` js
+npm install babel-plugin-import
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+// package.json
+const { override, fixBabelImports } = require('customize-cra');
 
-### Code Splitting
+module.exports = override(
+   fixBabelImports('import', {
+     libraryName: 'antd',
+     libraryDirectory: 'es',
+     style: 'css',
+   }),
+ );
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## 3、mobx
 
-### Analyzing the Bundle Size
+> 在CRA创建的项目中，引入mobx、mobx-react模块。且开启装饰器语法的功能。
+> 注：步骤3依赖步骤2中的react-app-rewired customize-cra模块与相应配置。
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+``` js
+npm install mobx mobx-react --save
 
-### Making a Progressive Web App
+// package.json
+const { override, fixBabelImports, disableEsLint, addDecoratorsLegacy } = require('customize-cra');
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+module.exports = override(
+   fixBabelImports('import', {
+     libraryName: 'antd',
+     libraryDirectory: 'es',
+     style: 'css',
+   }),
+   	// 禁用es语法检查
+   	disableEsLint(),
+	// 启用装饰器语法
+	addDecoratorsLegacy(),
+ );
+```
 
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
