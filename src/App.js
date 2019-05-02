@@ -1,26 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {Button} from 'antd';
+import Te0 from './components/Te0';
+import Te1 from './components/Te1';
+import Te2 from './components/Te2';
+import Te3 from './components/Te3';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="App">
+            <Button type="primary">基础按钮</Button>
+            <hr/>
+            <Te0/>
+            <hr/>
+            <Te1/>
+            <hr/>
+            <Te2/>
+            <hr/>
+            <Te3/>
+        </div>
+    );
 }
 
 export default App;
