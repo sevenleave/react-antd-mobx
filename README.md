@@ -1,44 +1,43 @@
+# 说明
+1. 这个项目，是基于create-react-app的一个demo项目。 
+2. 在使用CRA脚手架初始化后，不弹出默认配置，而是通过覆盖原有配置来引入其他功能。
+3. 出发点是网上没有一个详细的文档，说明在使用CRA时，如果开启mobx的装饰器语法（注解语法）。
 
-基于create-react-app的react项目。
+# demo项目功能
+1. CRA自带了模块热更新。
+2. 引用antd组件库。
+3. 引入mobx、mobx-react模块，且开启装饰器语法。
 
-> 不弹出CRA的默认配置，而是覆盖原有配置。
+# CRA + Ant Design + Mobx
+## 1、CRA: create-react-app
 
-1、CRA自带模块热更新。
-2、引用antd组件库。
-3、引入mobx、mobx-react模块，且使用装饰器语法。
+**说明：** 
+1. CRA的最新使用，请参考react的官方文档：[GitHub - facebook/create-react-app: Set up a modern web app by running one command.](https://github.com/facebook/create-react-app) 。
 
-
-> CRA+antd+mobx基本环境配置
-
-## 1、create-react-app
-
-> 语法根据CRA版本会有迭代，具体看文档。
-> 使用CRA创建react的web项目。
-> 自带模块热更新。
-
-[GitHub - facebook/create-react-app: Set up a modern web app by running one command.](https://github.com/facebook/create-react-app)
-
+**代码：**
+CRA初始化项目：
 ``` js
 npx create-react-app my-app
 
 cd my-app
 
-npm start
+// 启动验证
+npm start  
 ```
 
-## 2、antd
+## 2、Ant Design
 
-[Ant Design - A UI Design Language](https://ant.design/docs/react/use-with-create-react-app-cn)
+**说明：**
+1. Ant Design官网：[Ant Design - A UI Design Language](https://ant.design/docs/react/use-with-create-react-app-cn) 。
 
-> 在CRA创建的项目中，引入antd组件库。且开启按需加载组件的功能。
-
+**代码：**
+1. 引入antd组件库，且开启按需加载组件的功能。
 ``` js
-npm install react-app-rewired customize-cra 
+npm install antd react-app-rewired customize-cra 
 ```
 
-> 将package.json文件中的脚本配置替换掉：
+2. 将`package.json` 文件中的脚本配置替换掉。
 ``` js
-// package.json
 "scripts": {
    "start": "react-app-rewired start",
    "build": "react-app-rewired build",
@@ -46,20 +45,19 @@ npm install react-app-rewired customize-cra
 }
 ```
 
-> 在根目录下，新建`config-overrides.js`文件，用于覆盖配置。
+3. 在demo项目的根目录下，新建`config-overrides.js` 文件，用于覆盖配置。
 ``` js
-// package.json
 module.exports = function override(config, env) {
   // do stuff with the webpack config...
   return config;
 };
 ```
 
-> 覆写配置，按需引入antd组件
+4. 覆写配置，按需引入antd组件。
 ``` js
 npm install babel-plugin-import
 
-// package.json
+// 修改package.json文件
 const { override, fixBabelImports } = require('customize-cra');
 
 module.exports = override(
@@ -71,15 +69,16 @@ module.exports = override(
  );
 ```
 
-## 3、mobx
+## 3、mobx、mobx-react
 
-> 在CRA创建的项目中，引入mobx、mobx-react模块。且开启装饰器语法的功能。
-> 注：步骤3依赖步骤2中的react-app-rewired customize-cra模块与相应配置。
+**说明：**
+1. 下面代码中的配置，依赖上面引入的`react-app-rewired` 、`customize-cra` 模块。 
 
+**代码：**
 ``` js
 npm install mobx mobx-react --save
 
-// package.json
+// 修改package.json文件
 const { override, fixBabelImports, disableEsLint, addDecoratorsLegacy } = require('customize-cra');
 
 module.exports = override(
@@ -88,10 +87,11 @@ module.exports = override(
      libraryDirectory: 'es',
      style: 'css',
    }),
-   	// 禁用es语法检查
-   	disableEsLint(),
-	// 启用装饰器语法
-	addDecoratorsLegacy(),
+   
+   // 禁用es语法检查
+   disableEsLint(),
+  
+   // 启用装饰器语法
+   addDecoratorsLegacy(),
  );
 ```
-
