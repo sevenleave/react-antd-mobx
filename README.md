@@ -57,7 +57,7 @@ module.exports = function override(config, env) {
 ``` js
 npm install babel-plugin-import
 
-// 修改package.json文件
+// 修改config-overrides.js文件
 const { override, fixBabelImports } = require('customize-cra');
 
 module.exports = override(
@@ -78,7 +78,7 @@ module.exports = override(
 ``` js
 npm install mobx mobx-react --save
 
-// 修改package.json文件
+// 修改config-overrides.js文件
 const { override, fixBabelImports, disableEsLint, addDecoratorsLegacy } = require('customize-cra');
 
 module.exports = override(
